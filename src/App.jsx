@@ -1,15 +1,28 @@
-import React, { Component, Fragment } from 'react';
-import Card from './Card.jsx';
+import React, { Component } from 'react';
+import CardList from './Cardlist.jsx';
+import Search from './Search.jsx';
 import { robots } from './robots';
 
 class App extends Component {
+	constructor() {
+		super();
+		this.state = {
+			robots,
+			searchfield: ''
+		};
+	}
+	onSearch = (e) => {
+		this.setState({ searchfield: e.target.value });
+	};
 	render() {
+		const results = this.state.robots.filter((robots) =>
+			robots.name.toLowerCase().includes(this.state.searchfield.toLowerCase())
+		);
 		return (
 			<div className="tc">
 				<h1>Robots</h1>
-				<Card />
-				<Card />
-				<Card />
+				<Search onSearch={this.onSearch} />
+				<CardList robots={results} />
 			</div>
 		);
 	}
